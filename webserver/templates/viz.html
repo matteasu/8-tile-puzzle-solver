@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Home</a>
+        </div>
+    </nav>
+	<div class="container pt-5">
+       {% for key in parsed.keys() %}
+           <div class="row mb-5 mt-2">
+               <div class="card">
+                    <div class="card-header">{{ "Puzzle n°{}".format(key)}}</div>
+                   <div class="card-body">
+                       <div class="container">
+                           <div class="row">
+                               <div class="col">
+                                   <div class="container">
+                                       <div class="row mt-2 ">
+                                           <div class="col">{{ parsed[key]["puzzle"][0][0]}}</div>
+                                           <div class="col">{{ parsed[key]["puzzle"][0][1]}}</div>
+                                           <div class="col">{{ parsed[key]["puzzle"][0][2]}}</div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col square">{{ parsed[key]["puzzle"][1][0]}}</div>
+                                           <div class="col square">{{ parsed[key]["puzzle"][1][1]}}</div>
+                                           <div class="col square">{{ parsed[key]["puzzle"][1][2]}}</div>
+                                       </div>
+                                       <div class="row">
+                                           <div class="col square">{{ parsed[key]["puzzle"][2][0]}}</div>
+                                           <div class="col square">{{ parsed[key]["puzzle"][2][1]}}</div>
+                                           <div class="col square">{{ parsed[key]["puzzle"][2][2]}}</div>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="col">
+                                   {{ graphs[key]|safe }}
+                               </div>
+                           </div>
+                           <div class="row">
+                               <div class="col">
+                                   <table class="table table-striped">
+                                       <thead>
+                                       <tr>
+                                           <th scope="col">Algorithm</th>
+                                           <th scope="col">Total Nodes</th>
+                                           <th scope="col">Expanded Nodes</th>
+                                           <th scope="col">Solution Depth</th>
+                                           <th scope="col">Solution Cost</th>
+                                       </tr>
+                                       </thead>
+                                       <tbody>
+                                       {% for algo in parsed[key]["nodes_count"]["expanded_nodes"].keys() %}
+                                           <tr>
+                                            <th scope="row">{{ algo }}</th>
+                                            <td>{{ parsed[key]["nodes_count"]["total_nodes"][algo] }}</td>
+                                           <td>{{ parsed[key]["nodes_count"]["expanded_nodes"][algo] }}</td>
+                                           <td>{{ parsed[key]["solutions_cost"]["depth"][algo] }}</td>
+                                           <td>{{ parsed[key]["solutions_cost"]["cost"][algo] }}</td>
+                                           </tr>
+                                       {% endfor %}
+                                       </tbody>
+                                   </table>
+                               </div>
+                           </div>
+                           <div class="row mb-2">
+                               <div class="col">
+                                   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="{{ "#collapseBFS{}".format(key) }}" aria-expanded="false" aria-controls="{{ "collapseBFS{}".format(key) }}">
+                                       BFS solution path
+                                   </button>
+                               </div>
+                               <div class="col">
+                                   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="{{ "#collapseDFS{}".format(key) }}" aria-expanded="false" aria-controls="{{ "collapseDFS{}".format(key) }}">
+                                       DFS solution path
+                                   </button>
+                               </div>
+                               <div class="col">
+                                   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="{{ "#collapseIDFS{}".format(key) }}" aria-expanded="false" aria-controls="{{ "collapseIDFS{}".format(key) }}">
+                                       IDFS solution path
+                                   </button>
+                               </div>
+                               <div class="col">
+                                   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="{{ "#collapseA*miss{}".format(key) }}" aria-expanded="false" aria-controls="{{ "collapseA*miss{}".format(key) }}">
+                                       A* Misplaced solution path
+                                   </button>
+                               </div>
+                               <div class="col">
+                                   <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="{{ "#collapseA*man{}".format(key) }}" aria-expanded="false" aria-controls="{{ "collapseA*man{}".format(key) }}">
+                                       A* Manhattan solution path
+                                   </button>
+                               </div>
+                           </div>
+                            <div class="row mt-2 mb-2">
+                                <div class="col">
+                                    <div class="collapse" id="{{ "collapseBFS{}".format(key) }}">
+                                        <div class="card card-body">
+                                            BFS: {{parsed[key]["solutions_actions"]["BFS"]}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           <div class="row mt-2 mb-2">
+                               <div class="col">
+                                   <div class="collapse" id="{{ "collapseDFS{}".format(key) }}">
+                                       <div class="card card-body">
+                                           DFS: {{parsed[key]["solutions_actions"]["DFS"]}}
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row mt-2 mb-2">
+                               <div class="col">
+                                   <div class="collapse" id="{{ "collapseIDFS{}".format(key) }}">
+                                       <div class="card card-body">
+                                           IDFS: {{parsed[key]["solutions_actions"]["IDFS"]}}
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row mt-2 mb-2">
+                               <div class="col">
+                                   <div class="collapse" id="{{ "collapseA*miss{}".format(key) }}">
+                                       <div class="card card-body">
+                                           A* misplaced: {{parsed[key]["solutions_actions"]["A*_misplaced"]}}
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row mt-2 mb-2">
+                               <div class="col">
+                                   <div class="collapse" id="{{ "collapseA*man{}".format(key) }}">
+                                       <div class="card card-body">
+                                           A* manhattan: {{parsed[key]["solutions_actions"]["A*_manhattan"]}}
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       {% endfor %}
+    </div>
+{% endblock %}

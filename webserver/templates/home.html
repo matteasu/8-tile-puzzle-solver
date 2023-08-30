@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col align-self-center">
+            <h1>8-tile puzzle visualizer</h1>
+            <h4>Upload the output.json file</h4>
+        </div>
+    </div>
+    <div class="row align-items-md-center">
+        <div class="col">
+            {{ render_form(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}

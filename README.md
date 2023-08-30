@@ -1,1 +1,1 @@
-# 8-tile-puzzle-solver
+# 8puzzle-solver
